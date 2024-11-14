@@ -31,7 +31,11 @@ jobs:
     - name: Install Docker Compose using Chocolatey
       run: |
         choco install docker-compose -y
-        docker-compose --version # Проверка установки Docker Compose
+        docker-compose --version
+
+    - name: Restart Docker Service
+      run: |
+        Start-Service docker
 
     - name: Build and run containers with Docker Compose
       run: |
