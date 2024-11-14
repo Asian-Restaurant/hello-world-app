@@ -22,10 +22,15 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Install Docker Compose
+    - name: Install Chocolatey
       run: |
-        Invoke-WebRequest -Uri https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-windows-x86_64.exe -OutFile $env:ProgramFiles\Docker\docker-compose.exe
-        [Environment]::SetEnvironmentVariable("Path", "$env:Path;C:\Program Files\Docker", [System.EnvironmentVariableTarget]::Machine)
+        Set-ExecutionPolicy Bypass -Scope Process -Force;
+        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12;
+        Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1')
+
+    - name: Install Docker Compose using Chocolatey
+      run: |
+        choco install docker-compose -y
         docker-compose --version # Проверка установки Docker Compose
 
     - name: Build and run containers with Docker Compose
