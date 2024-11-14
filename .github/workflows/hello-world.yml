@@ -24,8 +24,9 @@ jobs:
 
     - name: Install Docker Compose
       run: |
-        Invoke-WebRequest -Uri https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-windows-x86_64.exe -OutFile C:\ProgramData\DockerDesktop\docker-compose.exe
-        [Environment]::SetEnvironmentVariable("Path", "$env:Path;C:\ProgramData\DockerDesktop", [System.EnvironmentVariableTarget]::Machine)
+        Invoke-WebRequest -Uri https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-windows-x86_64.exe -OutFile $env:ProgramFiles\Docker\docker-compose.exe
+        [Environment]::SetEnvironmentVariable("Path", "$env:Path;C:\Program Files\Docker", [System.EnvironmentVariableTarget]::Machine)
+        docker-compose --version # Проверка установки Docker Compose
 
     - name: Build and run containers with Docker Compose
       run: |
